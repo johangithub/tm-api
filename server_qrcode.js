@@ -13,29 +13,16 @@ var config = require('./config') // get our config file
 var bcrypt = require('bcrypt')
 var cors = require('cors')
 
+var register = require('./register.js')
 // =======================
 // configuration =========
 // =======================
 var port = process.env.PORT || 5005 // used to create, sign, and verify tokens
 let db = new sqlite3.Database(config.database)
-app.set('jwtSecret', config.jwtSecret) // secret variable
+app.set('superSecret', config.secret) // secret variable
 
 //CORS
-//Requests are only allowed from whitelisted url
-var whitelist = ['http://localhost:8080']
-var corsOptions = {
-    origin: function (origin, callback){
-        // whitelist-test pass
-        if (whitelist.indexOf(origin) !== -1){
-            callback(null, true)
-        }
-        // whitelist-test fail
-        else{
-            callback(new Error('Not on whitelist'))    
-        }
-    }
-}
-app.use(cors(corsOptions))
+app.use(cors())
 
 // helmet protects the application with various functions
 app.use(helmet())
@@ -52,19 +39,62 @@ app.use(morgan('dev'))
 // =======================
 // basic route
 
+
+var QRCode = require('qrcode')
+var speakeasy = require('speakeasy');
+
+
+var secret = 
+{
+  "ascii": "I(e$?mJQ^I3AUgelRu7S",
+  "hex": "492865243f6d4a515e4933415567656c52753753",
+  "base32": "JEUGKJB7NVFFCXSJGNAVKZ3FNRJHKN2T",
+  "otpauth_url": "otpauth://totp/joe.han%40mail.mil?secret=JEUGKJB7NVFFCXSJGNAVKZ3FNRJHKN2T"
+}
+
 app.get('/', function(req, res) {
     res.send('Hello! The API is at http://localhost:' + port + '/api')
 })
 
 // API ROUTES -------------------
 var apiRoutes = express.Router()
+app.set('view engine', 'ejs')
+//register using totp token
+app.get('/register', function(req, res){
+    var token = speakeasy.totp({
+        secret: secret.base32,
+        encoding: 'base32',
+        algorithm: 'sha1'
+    })
+    var url = speakeasy.otpauthURL({ secret: secret.base32, label: 'joe.han@us.af.mil',
+        algorithm: 'sha1', issuer:'AF Talent Marketplace', digits: 6, encoding: 'base32' });
+    QRCode.toDataURL(url, function(err, data_url) {
+        res.render('index',{
+            data_url: data_url,
+            secret: secret.base32,
+            token: token
+        })
+    })
+})
+
+app.get('/qrcode', function(req, res){
+    var secret = speakeasy.generateSecret({
+            length: 20,
+            name: 'joe.han@mail.mil',
+            issuer: 'AF Talent Marketplace',
+            algorithm: 'sha256'
+        })
+    res.send(secret)
+})
+
+
 
 //The middleware is not applied here, because we cannot apply token-requiring
 //middleware when they first login and authenticate
 apiRoutes.post('/authenticate', function(req, res){
     let email = req.body.email
     var password = req.body.password
-    var sqlget = `SELECT email as email, salt as salt, hash as hash, role as role, id as id
+    var sqlget = `SELECT email as email, salt as salt, hash as hash, role as role 
                   from user where email=(?)`
     db.get(sqlget, [email], (err, user)=>{
         if (err){
@@ -79,13 +109,13 @@ apiRoutes.post('/authenticate', function(req, res){
         else if (user){
             bcrypt.compare(password, user.hash, function(err, confirmed){
                 if (!confirmed){ // password don't match
-                    res.json({
+                    res.json({ 
                         success: false, 
                         message: 'Authentication failed. Wrong password.' 
                     })
                 }
                 else if (confirmed){
-                    var token = jwt.sign({email: user.email, role: user.role, id: user.id}, app.get('jwtSecret'), {
+                    var token = jwt.sign(user, app.get('superSecret'), {
                         expiresIn: 60*60*24 // expires in 24 hours
                     })
 
@@ -106,7 +136,7 @@ apiRoutes.post('/authenticate', function(req, res){
 apiRoutes.use(function(req, res, next){
     var token = req.body.token || req.query.token || req.headers['x-access-token'] || req.headers.authorization
     if (token){
-        jwt.verify(token, app.get('jwtSecret'), function(err, decoded){
+        jwt.verify(token, app.get('superSecret'), function(err, decoded){
             if (err){
                 return res.status(403).send({
                     success: false,
@@ -126,84 +156,21 @@ apiRoutes.use(function(req, res, next){
     }
 })
 
-//route middleware to verify authority
-apiRoutes.use(function(req, res, next){
-
-    //offciers/officerId only accessible by admin
-    var role = req.decoded.role
-    var path = req.path
-    console.log(role, path)
-    if (role=='admin' || role =='peon'){
-        next()
-    }
-    //Without proper role
-    else{
-        console.log('Failed')
-        res.status(403)
-        res.json({
-            success: false,
-            message: 'Forbidden'
-        })
-    }
-})
-
 apiRoutes.get('/', function(req, res){
     res.json({message: 'Welcome to the API ROOT'})
 })
 
 apiRoutes.get('/users', function(req, res){
-    var requesterEmail = req.decoded.email
     var users = []
-    let sql1 = 'SELECT email as email, role as role from user where email = ?' 
-    db.all(sql1, requesterEmail, (err, rows) =>{
+    let sql1 = 'SELECT email as email, role as role from user' 
+    db.all(sql1, [], (err, rows) =>{
         if(err){
             throw err
         }
-        else if (!rows){
-            res.json({
-                success: false,
-                message: 'User not found'
-            })
-        }
-        else{
-            rows.forEach((row)=>{
-                users.push(row)
-            })
-            res.json({
-                success: true,
-                data: users
-            }
-            )
-        }
-    })
-})
-
-apiRoutes.get('/officers/:officerId', function(req, res){
-    var sqlget = `SELECT ? as officerId`
-    var officerId = req.params.officerId
-    db.get(sqlget, [officerId], (err, row)=>{
-        if (err){
-            throw err
-        }
-        else if (!row){
-            res.json({
-                success: false,
-                message: 'Officer not found.'
-            })     
-        }
-        else {
-            res.json({
-                success: true,
-                officerId: row.officerId
-            })
-        }
-    })
-})
-
-apiRoutes.get('/billets/:billetId', function(req, res){
-    res.json({
-        success: true,
-        billetId: req.params.billetId
+        rows.forEach((row)=>{
+            users.push(row)
+        })
+        res.json(users)
     })
 })
 
@@ -212,5 +179,5 @@ app.use('/api', apiRoutes)
 // =======================
 // start the server ======
 // =======================
-app.listen(port, '0.0.0.0')
+app.listen(port)
 console.log('Magic happens at http://localhost:' + port)

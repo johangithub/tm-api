@@ -1,0 +1,630 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"cors",
+				"corsOptions"
+			],
+			[
+				"offi",
+				"officerId"
+			],
+			[
+				"base32",
+				"base32secret"
+			],
+			[
+				"sna",
+				"snackbar_text"
+			],
+			[
+				"auth",
+				"authRequired"
+			],
+			[
+				"emai",
+				"email_valid"
+			],
+			[
+				"api",
+				"apiRoutes"
+			],
+			[
+				"seri",
+				"serialize"
+			],
+			[
+				"loca",
+				"locationChart"
+			],
+			[
+				"category",
+				"categoryGroup"
+			],
+			[
+				"cateogry",
+				"categoryDimension"
+			],
+			[
+				"header",
+				"headerList"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "server.js",
+			"settings":
+			{
+				"buffer_size": 6172,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "initialize.js",
+			"settings":
+			{
+				"buffer_size": 1765,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "config.js",
+			"settings":
+			{
+				"buffer_size": 87,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Anaconda Python Builder",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Anaconda Python Builder",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 92.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"Package Control: insta",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: in",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 467.0
+	},
+	"console":
+	{
+		"height": 774.0,
+		"history":
+		[
+			"ls",
+			"import urllib.request,os,hashlib; h = 'df21e130d211cfc94d9b0905775a7c0f' + '1e3d39e33b79698005270310898eea76'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by) "
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/jh/tm-api"
+	],
+	"file_history":
+	[
+		"/home/jh/tm-api/initialize.js",
+		"/home/jh/tm-api/tm-api.sublime-project",
+		"/home/jh/tm/build/webpack.base.conf.js",
+		"/home/jh/tm/src/components/Squadrons.vue",
+		"/home/jh/commander/tm_commander/src/components/Navbar.vue",
+		"/home/jh/commander/tm_commander/src/main.js",
+		"/home/jh/commander/tm_commander/src/components/Login.vue",
+		"/home/jh/commander/tm/.babelrc",
+		"/home/jh/commander/tm/src/assets/data/FGO.json",
+		"/home/jh/commander/tm/src/assets/data/CGO.json",
+		"/home/jh/commander/tm/index.html",
+		"/home/jh/commander/tm/src/components/Home.vue",
+		"/home/jh/commander/tm/src/components/Navbar.vue",
+		"/home/jh/tm-api/register.js",
+		"/home/jh/tm-api/views/index.ejs",
+		"/home/jh/tm-api/server.js",
+		"/home/jh/tm-api/public/index.html",
+		"/home/jh/tm-api/index.ejs",
+		"/home/jh/tm/src/components/Profile.vue",
+		"/home/jh/tm/src/components/Navbar.vue",
+		"/home/jh/tm/src/components/LosingCommander.vue",
+		"/home/jh/tm/src/assets/data/CGO.json",
+		"/home/jh/tm/src/assets/data/FGO.json",
+		"/home/jh/tm/src/components/Home.vue",
+		"/home/jh/tm/src/router/index.js",
+		"/home/jh/tm/build/webpack.dev.conf.js",
+		"/home/jh/tm/build/webpack.prod.conf.js",
+		"/home/jh/tm/src/store.js",
+		"/home/jh/tm/src/main.js",
+		"/home/jh/tm/src/components/Login.vue",
+		"/home/jh/tm/src/components/ClipSpinner.vue",
+		"/home/jh/tm/temp.js",
+		"/home/jh/tm/package.json",
+		"/home/jh/tm/config/index.js",
+		"/home/jh/tm/config/dev.env.js",
+		"/home/jh/tm/config/prod.env.js",
+		"/home/jh/tm/src/assets/data/fighter_billets.csv",
+		"/home/jh/tm-api/app/config/passport.js",
+		"/home/jh/tm-api/app/models/user.js",
+		"/home/jh/tm-api/app/config_passport.js",
+		"/home/jh/tm-api/config.js",
+		"/home/jh/api/app/config/strategies/local.js",
+		"/home/jh/api/server.js",
+		"/home/jh/tm/api/sqlite.js",
+		"/home/jh/tm/api/app/models/user.js",
+		"/home/jh/tm/api/config.js",
+		"/home/jh/tm/api/initialize.js",
+		"/home/jh/tm/api/server.js",
+		"/home/jh/tm/api/app/config.js",
+		"/home/jh/tm/api/app/server.js",
+		"/home/jh/.config/sublime-text-3/Packages/User/Node.sublime-build",
+		"/home/jh/tm/api/node.sublime-build",
+		"/home/jh/flask-praetorian/example/basic.py",
+		"/home/jh/tm/src/components/About.vue",
+		"/home/jh/tm/src/components/HideButton.vue",
+		"/home/jh/tm/src/components/ResetButton.vue",
+		"/home/jh/tm/src/components/Billet.vue",
+		"/home/jh/tm/api/app.py",
+		"/home/jh/tm/build/dev-server.js",
+		"/home/jh/tm/src/components/ResetDcChart.vue",
+		"/home/jh/tm/src/assets/data/us-states.json",
+		"/home/jh/tm/node_modules/dc/dc.js",
+		"/home/jh/tm/api/tm_api.sublime-workspace",
+		"/home/jh/Downloads/ship/tree.html",
+		"/home/jh/tm/src/components/temp.css",
+		"/home/jh/tm/src/assets/js/d3.v3.min.js",
+		"/home/jh/tm/static/js/d3.v3.min.js",
+		"/home/jh/tm/src/components/flare.json",
+		"/home/jh/tm/node_modules/d3/index.js",
+		"/home/jh/tm/src/assets/fakebillets.js",
+		"/home/jh/tm/src/App.vue",
+		"/home/jh/tm/static/fake_billet.js",
+		"/home/jh/tm/src/components/FindBillets.vue",
+		"/home/jh/tm/src/components/FindOfficers.vue",
+		"/home/jh/tm/src/components/Hello.vue",
+		"/home/jh/tm/src/components/FindOfficer.vue",
+		"/home/jh/lunar/src/App.vue",
+		"/home/jh/tm/build/build.js"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"decoded",
+			"role",
+			"users_input",
+			"secret",
+			"bcrypt",
+			"superSecret",
+			"input",
+			"showAboutside",
+			"2-ship",
+			"4-ship",
+			"I want to work for the fighter porch.",
+			"polyfill",
+			"babel",
+			"v-model=\"officer",
+			"label=",
+			"label=\"",
+			"label=",
+			"fgo",
+			"cgo",
+			"Maj",
+			"craig.cude",
+			"\\, ",
+			"\"slip_reason\": \"\",",
+			"\"location\": [\"\",\"\",\"\",\"\"],",
+			"\"location\": [\"\",\"\",\"\",\"\"]",
+			"qualOptions",
+			"console.log",
+			"\"issueRNLTD\": false,",
+			"bcrypt",
+			"sha256",
+			"sha512",
+			"\\;",
+			"\"issueRNLTD\": false,",
+			"xs-4",
+			"desiredDepartureDate",
+			"port",
+			"\"location\": []",
+			"[]",
+			"\"location1\": \"\",\n      \"location2\": \"\",\n      \"location3\": \"\"",
+			"Jane Smith",
+			"Maj",
+			"FGO",
+			"console.",
+			"assetsPublicPath",
+			"console.log",
+			"name",
+			"getAxios",
+			"snackbar_login",
+			"authRequired: ",
+			"authRequired: true",
+			"authRequired",
+			"false",
+			"component",
+			"username",
+			"\\*{4}",
+			"DATA MASKED",
+			"password",
+			"d.",
+			"db4",
+			"hash",
+			"row",
+			"db4",
+			"db2",
+			"db",
+			"`",
+			"'",
+			"login_manager",
+			"conn = db_connect",
+			"db_connect",
+			"json_data",
+			"\"\"",
+			"username",
+			"r-fluid",
+			"<span>",
+			"h5",
+			"h3",
+			"div",
+			"192.168.1.23",
+			"5002",
+			"localhost",
+			"host",
+			"showConus",
+			"showAPICode",
+			"chip",
+			"btn",
+			"dcchart",
+			"reset-dcchart",
+			"<reset-dcchart",
+			"hide-btn v-if=\"show",
+			"btn @",
+			"tn @",
+			"hide-btn",
+			"nam",
+			"<hide-btn",
+			"name=",
+			"<hide-btn @toggleShow",
+			"showLocation",
+			"showAPICode",
+			"showConus",
+			"showStates",
+			"(AVIANO,)",
+			"(YOKOTA,)",
+			"\\n",
+			"showStates",
+			"TX(,MACDILL)",
+			"TX(,MOUNTAIN HOME)",
+			"TX(,MOODY)",
+			"TX(,KIRTLAND)",
+			"TX(,HOLLOMAN)",
+			"TX(,SEYMOUR JOHNSON)",
+			"TX(,TYNDALL)",
+			"TX(,HURLBURT FIELD)",
+			"TX(,DUKE FIELD)",
+			"TX(,JB ELMENDORF-RICH)",
+			"TX(,EIELSON)",
+			"TX(,SHAW)",
+			"TX(,TUCSON INTL)",
+			"TX(,COLUMBUS)",
+			"TX(,BUCKLEY)",
+			"TX(,SCHRIEVER)",
+			"TX(,PETERSON)",
+			"TX(,CP SMITH)",
+			"TX(,HILL)",
+			"TX(,JB PRL HBR-HICKAM)",
+			"TX(,JB LANGLEY-EUSTIS)",
+			"TX(,LOS ANGELES)",
+			"TX(,EDWARDS)",
+			"TX(,LUKE)"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			"Capt",
+			"\\,\\n",
+			"",
+			"John Doe",
+			"Capt",
+			"",
+			"MAXWELL",
+			"\\1O",
+			"\\,CONUS\\n",
+			"FL\\1",
+			"ID\\1",
+			"GA\\1",
+			"NM\\1",
+			"NC\\1",
+			"FL\\1",
+			"AK\\1",
+			"SC\\1",
+			"AZ\\1",
+			"MS\\1",
+			"CO\\1",
+			"HI\\1",
+			"UT\\1",
+			"HI\\1",
+			"VA\\1",
+			"CA\\1",
+			"AZ\\1",
+			"VA,PENTAGON",
+			"NV\\1",
+			"FL,EGLIN",
+			"\\,TX\\n",
+			"\\{letter\\: \\\"\\1\\\"\\, frequency\\: \\2 \\},",
+			"\\{letter\\: \\\"\\1\\\"\\, frequency\\: \\2 ]},",
+			"\\{letter\\: \\\"\\1\\\"\\, frequency\\: \\2 ]}",
+			""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "server.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6172,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3330,
+								3330
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1084.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "initialize.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1765,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1241,
+								1241
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 336.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "config.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 87,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								57,
+								57
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 22.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 145.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "Packages/User/Node.sublime-build",
+	"project": "tm-api.sublime-project",
+	"replace":
+	{
+		"height": 40.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/tm/tm.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 234.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

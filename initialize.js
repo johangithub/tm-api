@@ -12,34 +12,36 @@ email text,
 password text,
 role text,
 hash text,
-salt text
+salt text,
+id int
 )
 `
 var users = [
   {
     email: "chan.han.1@us.af.mil",
     password: "password1",
-    role: "admin"
+    role: "admin",
+    id: 1
   },
   {
     email: "caleb.ziegler.1@us.af.mil",
     password: "password2",
-    role: "peasant"
+    role: "peasant",
+    id: 3
   },
   {
     email: "gregory.anderson.26@us.af.mil",
     password: "password3",
-    role: "peon"
+    role: "peon",
+    id: 5
   },
 ]
-var users_input = users.map((d)=>{
-  return [d.email,d.password, d.role].join(',')
-})
-console.log(users_input)
+
 var sql2 = `
-INSERT INTO user(email, password, role, hash, salt)
-VALUES (?,?,?,?,?)
+INSERT INTO user(email, password, role, hash, salt, id)
+VALUES (?,?,?,?,?,?)
 `
+
 db.serialize(()=>{
   db.run('DROP Table IF EXISTS user')
   db.run(sql, [], function(err){
@@ -53,7 +55,7 @@ db.serialize(()=>{
     var salt = bcrypt.genSaltSync(10)
     var hash = bcrypt.hashSync(users[i].password, salt)
     var authenticated = bcrypt.compareSync(users[i].password, hash)
-    stmt.run(users[i].email,users[i].password, users[i].role, hash, salt)
+    stmt.run(users[i].email,users[i].password, users[i].role, hash, salt, users[i].id)
   }
   stmt.finalize()
   db.all('SELECT * from user', (err, rows)=>{

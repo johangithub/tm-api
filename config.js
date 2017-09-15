@@ -1,4 +1,4 @@
 module.exports ={
-    'secret': 'gofalcons!',
-    'database': './db.db'
+    'jwtSecret': process.env.JWT_SECRET,
+    'database': './db.db',
 }
