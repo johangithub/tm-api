@@ -4,6 +4,34 @@
 		"selected_items":
 		[
 			[
+				"lang",
+				"language_data_parse"
+			],
+			[
+				"general_",
+				"general_data_parse"
+			],
+			[
+				"degree_",
+				"degree_data_parse"
+			],
+			[
+				"adsc",
+				"adsc_data_parse"
+			],
+			[
+				"duty_",
+				"duty_exp_parse"
+			],
+			[
+				"course",
+				"course_data_parse"
+			],
+			[
+				"service",
+				"service_dates_parse"
+			],
+			[
 				"cors",
 				"corsOptions"
 			],
@@ -59,7 +87,7 @@
 			"file": "server.js",
 			"settings":
 			{
-				"buffer_size": 6172,
+				"buffer_size": 25405,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -169,6 +197,7 @@
 	],
 	"file_history":
 	[
+		"/home/jh/tm-api/yarn-error.log",
 		"/home/jh/tm-api/initialize.js",
 		"/home/jh/tm-api/tm-api.sublime-project",
 		"/home/jh/tm/build/webpack.base.conf.js",
@@ -264,6 +293,65 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"projection",
+			"rated_data",
+			"= data",
+			"data",
+			"aero_rating_date",
+			"aero_rating",
+			"proj_duty",
+			"cmd_lvl_pending",
+			"proj_duty",
+			"eff_date",
+			"listen",
+			"lang",
+			"acq_data",
+			"start",
+			"general_data['",
+			"proj_asgn",
+			"formatSASDate(",
+			"projection_data",
+			"course_temp",
+			"formatSASDate",
+			"data['_",
+			"start_date",
+			"projection_data",
+			"data",
+			"rnltd",
+			"pdd",
+			"record_status",
+			"general_data",
+			"asd",
+			"grade",
+			"joint_data",
+			"special_exp_parse",
+			"data",
+			"formatSASDate",
+			"nei_temp",
+			"data",
+			"aac",
+			"abc_temp",
+			"abc_list",
+			"org_det",
+			"org_level",
+			"2",
+			"duty_data",
+			"org_type",
+			"duty_data[",
+			"pme",
+			"formatSASDate",
+			"joint_temp",
+			"type",
+			"data",
+			"start",
+			"date",
+			"degree_temp",
+			"service_dates",
+			"service_dates_column",
+			"acft",
+			"det",
+			"type",
+			"function(req, res)",
 			"decoded",
 			"role",
 			"users_input",
@@ -332,66 +420,7 @@
 			"'",
 			"login_manager",
 			"conn = db_connect",
-			"db_connect",
-			"json_data",
-			"\"\"",
-			"username",
-			"r-fluid",
-			"<span>",
-			"h5",
-			"h3",
-			"div",
-			"192.168.1.23",
-			"5002",
-			"localhost",
-			"host",
-			"showConus",
-			"showAPICode",
-			"chip",
-			"btn",
-			"dcchart",
-			"reset-dcchart",
-			"<reset-dcchart",
-			"hide-btn v-if=\"show",
-			"btn @",
-			"tn @",
-			"hide-btn",
-			"nam",
-			"<hide-btn",
-			"name=",
-			"<hide-btn @toggleShow",
-			"showLocation",
-			"showAPICode",
-			"showConus",
-			"showStates",
-			"(AVIANO,)",
-			"(YOKOTA,)",
-			"\\n",
-			"showStates",
-			"TX(,MACDILL)",
-			"TX(,MOUNTAIN HOME)",
-			"TX(,MOODY)",
-			"TX(,KIRTLAND)",
-			"TX(,HOLLOMAN)",
-			"TX(,SEYMOUR JOHNSON)",
-			"TX(,TYNDALL)",
-			"TX(,HURLBURT FIELD)",
-			"TX(,DUKE FIELD)",
-			"TX(,JB ELMENDORF-RICH)",
-			"TX(,EIELSON)",
-			"TX(,SHAW)",
-			"TX(,TUCSON INTL)",
-			"TX(,COLUMBUS)",
-			"TX(,BUCKLEY)",
-			"TX(,SCHRIEVER)",
-			"TX(,PETERSON)",
-			"TX(,CP SMITH)",
-			"TX(,HILL)",
-			"TX(,JB PRL HBR-HICKAM)",
-			"TX(,JB LANGLEY-EUSTIS)",
-			"TX(,LOS ANGELES)",
-			"TX(,EDWARDS)",
-			"TX(,LUKE)"
+			"db_connect"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -452,15 +481,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6172,
+						"buffer_size": 25405,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3330,
-								3330
+								9094,
+								9094
 							]
 						],
 						"settings":
@@ -470,7 +499,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1084.0,
+						"translation.y": 3948.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -489,8 +518,8 @@
 						"selection":
 						[
 							[
-								1241,
-								1241
+								693,
+								693
 							]
 						],
 						"settings":
@@ -500,7 +529,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 336.0,
+						"translation.y": 398.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
