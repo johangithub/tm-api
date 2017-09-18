@@ -87,7 +87,16 @@
 			"file": "server.js",
 			"settings":
 			{
-				"buffer_size": 25405,
+				"buffer_size": 25469,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "TODO.md",
+			"settings":
+			{
+				"buffer_size": 151,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -293,6 +302,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"asd",
+			"special_exp",
+			"special_\t",
+			"course_",
 			"projection",
 			"rated_data",
 			"= data",
@@ -416,11 +429,7 @@
 			"db4",
 			"db2",
 			"db",
-			"`",
-			"'",
-			"login_manager",
-			"conn = db_connect",
-			"db_connect"
+			"`"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -481,15 +490,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 25405,
+						"buffer_size": 25469,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								9094,
-								9094
+								8946,
+								8946
 							]
 						],
 						"settings":
@@ -499,7 +508,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3948.0,
+						"translation.y": 3772.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -507,6 +516,34 @@
 				},
 				{
 					"buffer": 1,
+					"file": "TODO.md",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 151,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								151,
+								151
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
 					"file": "initialize.js",
 					"semi_transient": false,
 					"settings":
@@ -518,8 +555,8 @@
 						"selection":
 						[
 							[
-								693,
-								693
+								298,
+								298
 							]
 						],
 						"settings":
@@ -529,14 +566,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 398.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 3,
 					"file": "config.js",
 					"semi_transient": false,
 					"settings":
@@ -560,7 +597,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 3,
 					"type": "text"
 				}
 			]

@@ -179,8 +179,9 @@ apiRoutes.get('/users', (req, res)=>{
 })
 
 apiRoutes.get('/officers', (req, res)=>{
-    var sqlget = `SELECT * from officers order by random() limit 1`
-    db.get(sqlget, [], (err, row)=>{
+    var rowid = Math.floor(Math.random() * 1000) + 1  
+    var sqlget = `SELECT * from officers where rowid = ?`
+    db.get(sqlget, rowid, (err, row)=>{
         if (err){
             throw err
         }
@@ -200,13 +201,13 @@ apiRoutes.get('/officers', (req, res)=>{
             data['asgn_code'] = asgn_code_parse(data)
             data['service_dates'] = service_dates_parse(data)
             data['rated'] = rated_data_parse(data)
-            data['prof_course'] = course_data_parse(data)
+            data['courses'] = course_data_parse(data)
             data['adsc'] = adsc_data_parse(data)
             data['degree'] = degree_data_parse(data)
             data['pme'] = pme_data_parse(data)
             data['joint'] = joint_data_parse(data)
             data['special_experience'] = special_experience_parse(data)
-
+            data.rowid = rowid
 
             res.json({
                 success: true,
@@ -571,8 +572,8 @@ function joint_data_parse(data){
         joint_temp = {}
         joint_temp['start_date'] = formatSASDate(data['_jda_start_date_'+i])
         joint_temp['stop_date'] = formatSASDate(data['_jda_stop_date_'+i])
-        joint_temp['tour_type'] = data['_jda_tour_type_'+i]
-        joint_temp['tour_credit'] = data['_jda_tour_credit_'+i]
+        joint_temp['type'] = data['_jda_tour_type_'+i]
+        joint_temp['credit'] = data['_jda_tour_credit_'+i]
         joint_temp['reason'] = data['_jda_completion_rsn_'+i]
         joint_temp['posn'] = data['_jdamis_posn_number_'+i]
         joint_hist.push(joint_temp)
