@@ -80,7 +80,7 @@ var handleStoreError = function (error) {
 var ExpressBrute = require('express-brute')
 var store = new ExpressBrute.MemoryStore()
 var userBruteForce = new ExpressBrute(store, {
-    freeRetries: 2, // How many incorrect attempts before locking
+    freeRetries: 1000, // How many incorrect attempts before locking
     minWait: 1*60*1000, //5 minutes,
     maxWait: 2*60*1000, //1 hour,
     failCallback: failCallback,
