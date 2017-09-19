@@ -7,4 +7,6 @@
 - [ ] Unit Test
 - [ ] Aggregate Billet function 
 - [ ] Implement Matching algorithm
+- [ ] DB Load Test
+- [ ] EC2 Load Test
 

@@ -12,7 +12,7 @@ var jwt    = require('jsonwebtoken') // used to create, sign, and verify tokens
 var config = require('./config') // get our config file
 var bcrypt = require('bcrypt')
 var cors = require('cors')
-
+var moment = require('moment')
 // =======================
 // configuration =========
 // =======================
@@ -59,27 +59,63 @@ app.get('/', (req, res)=> {
 // API ROUTES -------------------
 var apiRoutes = express.Router()
 
+
+
+// Login Attempt Limit middleware
+var failCallback = function (req, res, next, nextValidRequestDate) {
+    res.status(404).send({
+        success: false,
+        message: 'Too Many Login Attempts. Please try again '+moment(nextValidRequestDate).fromNow()
+    }) // brute force protection triggered, send them back to the login page
+}
+var handleStoreError = function (error) {
+    log.error(error) // log this error so we can figure out what went wrong
+    // cause node to exit, hopefully restarting the process fixes the problem
+    throw {
+        message: error.message,
+        parent: error.parent
+    }
+}
+
+var ExpressBrute = require('express-brute')
+var store = new ExpressBrute.MemoryStore()
+var userBruteForce = new ExpressBrute(store, {
+    freeRetries: 2, // How many incorrect attempts before locking
+    minWait: 1*60*1000, //5 minutes,
+    maxWait: 2*60*1000, //1 hour,
+    failCallback: failCallback,
+    handleStoreError: handleStoreError
+})
+
 //The middleware is not applied here, because we cannot apply token-requiring
 //middleware when they first login and authenticate
-apiRoutes.post('/authenticate', (req, res)=>{
+apiRoutes.post('/authenticate', 
+    userBruteForce.getMiddleware({
+    key: function(req, res, next){
+        next(req.body.email)
+    }}),
+    (req, res)=>{
     let email = req.body.email
     var password = req.body.password
     var sqlget = `SELECT email as email, salt as salt, hash as hash, role as role, id as id
                   from user where email=(?)`
     db.get(sqlget, [email], (err, user)=>{
+        //If error
         if (err){
             throw err
         }
+        //If user not found
         else if (!user){
-            res.json({
+            res.status(404).send({
                 success: false,
                 message: 'Authentication failed. User not found.'
             })      
         }
+        //If user found
         else if (user){
             bcrypt.compare(password, user.hash, function(err, confirmed){
                 if (!confirmed){ // password don't match
-                    res.json({
+                    res.status(401).json({
                         success: false, 
                         message: 'Authentication failed. Wrong password.' 
                     })
@@ -132,7 +168,8 @@ apiRoutes.use(function(req, res, next){
     //offciers/officerId only accessible by admin
     var role = req.decoded.role
     var path = req.path
-    console.log(role, path)
+
+    //temporary route blocking
     if (role=='admin' || role =='peon'){
         next()
     }
