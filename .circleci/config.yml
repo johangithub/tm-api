@@ -32,6 +32,13 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-        
+  deploy:
+    name: Deploy to S3 if branch is Master
+    command: |
+    if [ "${CIRCLE_BRANCH}" == "master" ]; then
+      aws s3 sync tm/dist s3://tm-build
+    else 
+      echo "Not master branch"
+    fi
       # run tests!
       # - run: yarn test

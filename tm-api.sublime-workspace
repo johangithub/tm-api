@@ -87,7 +87,7 @@
 			"file": "server.js",
 			"settings":
 			{
-				"buffer_size": 25469,
+				"buffer_size": 26715,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -96,7 +96,7 @@
 			"file": "TODO.md",
 			"settings":
 			{
-				"buffer_size": 151,
+				"buffer_size": 306,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -288,7 +288,7 @@
 	],
 	"find":
 	{
-		"height": 34.0
+		"height": 39.0
 	},
 	"find_in_files":
 	{
@@ -302,6 +302,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"'_",
+			"app.listen",
+			"qr",
+			"console.log",
 			"asd",
 			"special_exp",
 			"special_\t",
@@ -425,11 +429,7 @@
 			"d.",
 			"db4",
 			"hash",
-			"row",
-			"db4",
-			"db2",
-			"db",
-			"`"
+			"row"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -437,6 +437,7 @@
 		"regex": true,
 		"replace_history":
 		[
+			"'",
 			"Capt",
 			"\\,\\n",
 			"",
@@ -481,7 +482,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -490,15 +491,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 25469,
+						"buffer_size": 26715,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								8946,
-								8946
+								26296,
+								26296
 							]
 						],
 						"settings":
@@ -508,10 +509,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3772.0,
+						"translation.y": 10815.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -520,15 +521,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 151,
+						"buffer_size": 306,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								151,
-								151
+								136,
+								136
 							]
 						],
 						"settings":
@@ -539,7 +540,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -555,8 +556,8 @@
 						"selection":
 						[
 							[
-								298,
-								298
+								726,
+								726
 							]
 						],
 						"settings":
@@ -566,10 +567,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 420.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -636,7 +637,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 145.0
+		"height": 322.0
 	},
 	"output.find_results":
 	{
@@ -646,7 +647,7 @@
 	"project": "tm-api.sublime-project",
 	"replace":
 	{
-		"height": 40.0
+		"height": 69.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -688,7 +689,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 234.0,
+	"side_bar_width": 166.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
