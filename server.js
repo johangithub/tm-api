@@ -171,16 +171,15 @@ apiRoutes.use(function(req, res, next){
     var path = req.path
 
     //temporary route blocking
-    if (role=='admin' || role =='peon'){
+    if (role=='admin' || role =='peon' || role =='peasant'){
         next()
     }
     //Without proper role
     else{
-        console.log('Failed')
         res.status(403)
         res.json({
             success: false,
-            message: 'Forbidden'
+            message: 'Caleb Not allowed'
         })
     }
 })
@@ -216,13 +215,40 @@ apiRoutes.get('/users', (req, res)=>{
     })
 })
 
+
+//API End point for billet overview
+apiRoutes.get('/billet_view', (req, res)=>{
+    var sqlget = `SELECT * from billets`
+        db.all(sqlget, [], (err, rows)=>{
+        try{
+        var data = []
+        rows.forEach((row)=>{
+            data.push(handleBuffer(row))
+        })
+        res.json({
+          success: true,
+          data: data
+        })
+        }
+        catch(err){
+            console.log(err)
+        }
+    })
+})
+
+//API End point for overview of officers
 apiRoutes.get('/officer_view', (req, res)=>{
-    var sqlget = `SELECT cast(org_unit AS TEXT) as unit from officers limit 10`
+    var sqlget = `SELECT rtg, flt_hrs_total, grade, rdtm, adjYG, id from officers`
+    //rtg, flt_hrs_total, grade, rdtm, adjYG, id
     db.all(sqlget, [], (err, rows)=>{
         try{
+        var data = []
+        rows.forEach((row)=>{
+            data.push(handleBuffer(row))
+        })
 	    res.json({
 		  success: true,
-		  data: rows
+		  data: data
 	    })
         }
         catch(err){
@@ -230,6 +256,19 @@ apiRoutes.get('/officer_view', (req, res)=>{
         }
     })
 })
+
+function handleBuffer(row){
+    var temp={}
+    for (d in row){
+        if(row[d] != null && typeof(row[d]) == 'object'){
+            temp[d] = row[d].toString('utf-8')
+        } else if (row[d] != null){
+            temp[d] = row[d]
+        }
+    }
+    return temp
+}
+
 apiRoutes.get('/officers', (req, res)=>{
     var rowid = Math.floor(Math.random() * 100) + 1  
     var sqlget = `SELECT * from officers where rowid = ?`
@@ -580,12 +619,12 @@ function degree_data_parse(data){
 function course_data_parse(data){
     var course_data = []
     var i = 1
-    while (data['prof_spec_crse_'+i]){
+    while (data['course_'+i]){
         course_temp = {}
-        course_temp['course'] = data['prof_spec_crse_'+i]
-        course_temp['date'] = formatSASDate(data['prof_spec_crse_date_'+i])
-        delete data['prof_spec_crse_'+i]
-        delete data['prof_spec_crse_date_'+i]
+        course_temp['course'] = data['course_'+i]
+        course_temp['date'] = formatSASDate(data['course_date_'+i])
+        delete data['course_'+i]
+        delete data['course_date_'+i]
         course_data.push(course_temp)
         i+=1
     }
