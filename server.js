@@ -2,17 +2,20 @@
 // get the packages we need ============
 // =======================
 var express     = require('express')
+var http        = require('http')
+var https       = require('https')
+var fs          = require('fs')
 var path        = require('path')
 var app         = express()
 var bodyParser  = require('body-parser')
 var morgan      = require('morgan')
-var helmet = require('helmet')
-const sqlite3 = require('sqlite3').verbose()
-var jwt    = require('jsonwebtoken') // used to create, sign, and verify tokens
-var config = require('./config') // get our config file
-var bcrypt = require('bcrypt')
-var cors = require('cors')
-var moment = require('moment')
+var helmet      = require('helmet')
+const sqlite3   = require('sqlite3').verbose()
+var jwt         = require('jsonwebtoken') // used to create, sign, and verify tokens
+var config      = require('./config') // get our config file
+var bcrypt      = require('bcrypt')
+var cors        = require('cors')
+var moment      = require('moment')
 
 // =======================
 // configuration =========
@@ -23,10 +26,11 @@ app.set('jwtSecret', config.jwtSecret) // secret variable
 
 //CORS
 //Requests are only allowed from whitelisted url
-var whitelist = ['http://localhost:8080']
+var whitelist = ['https://localhost:8080']
 var corsOptions = {
     origin: function (origin, callback){
         // whitelist-test pass
+        console.log(origin)
         if (whitelist.indexOf(origin) !== -1){
             callback(null, true)
         }
@@ -277,14 +281,8 @@ apiRoutes.get('/officers', (req, res)=>{
             throw err
         }
         else {
-            var data = {}
-            for (d in row){
-                if(row[d] != null && typeof(row[d]) == 'object'){
-                    data[d] = row[d].toString('utf-8')
-                } else if (row[d] != null){
-                    data[d] = row[d]
-                }
-            }
+            data = handleBuffer(row)
+            
             data['language'] = language_data_parse(data)
             data['general'] = general_data_parse(data)
             data['projected'] = projection_data_parse(data)
@@ -340,9 +338,17 @@ app.use('/api', apiRoutes)
 // =======================
 // start the server ======
 // =======================
-app.listen(port)
-console.log('Server up at http://localhost:' + port)
 
+
+// app.listen(port)
+const options = {
+  key: fs.readFileSync('../tm/localhost.key'),
+  cert: fs.readFileSync('../tm/localhost.crt'),
+  passphrase: '1234'
+};
+
+https.createServer(options, app).listen(port);
+console.log('Server up at https://localhost:' + port)
 
 function general_data_parse(data){
     general_data = {}
