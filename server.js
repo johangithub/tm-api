@@ -26,7 +26,8 @@ app.set('jwtSecret', config.jwtSecret) // secret variable
 
 //CORS
 //Requests are only allowed from whitelisted url
-var whitelist = ['https://localhost:8080']
+var whitelist = ['http://localhost:8080'] //not https
+//var whitelist = ['https://locahost:8080'] //https
 var corsOptions = {
     origin: function (origin, callback){
         // whitelist-test pass
@@ -175,7 +176,7 @@ apiRoutes.use(function(req, res, next){
     var path = req.path
 
     //temporary route blocking
-    if (role=='admin' || role =='peon' || role =='peasant'){
+    if (role){
         next()
     }
     //Without proper role
@@ -222,7 +223,16 @@ apiRoutes.get('/users', (req, res)=>{
 
 //API End point for billet overview
 apiRoutes.get('/billet_view', (req, res)=>{
-    var sqlget = `SELECT * from billets`
+    var sqlget = `SELECT    CAST(AFPCID as INT) as id,
+                            position_AFSC_Core as afsc,
+                            RPI as api,
+                            AJJ as location,
+                            Unit as unit,
+                            Authorized_Rank as grade,    
+                            case conus when 1 then 'CONUS' else 'OCONUS' end as conus,
+                            RDTM as aircraft,
+                            case length(AEW) when 2 then AEW else 'NONE' end as state 
+                         from billets`
         db.all(sqlget, [], (err, rows)=>{
         try{
         var data = []
@@ -340,14 +350,14 @@ app.use('/api', apiRoutes)
 // =======================
 
 
-// app.listen(port)
-const options = {
-  key: fs.readFileSync('../tm/localhost.key'),
-  cert: fs.readFileSync('../tm/localhost.crt'),
-  passphrase: '1234'
-};
-
-https.createServer(options, app).listen(port);
+app.listen(port)
+//const options = {
+//  key: fs.readFileSync('../tm/localhost.key'),
+//  cert: fs.readFileSync('../tm/localhost.crt'),
+//  passphrase: '1234'
+//};
+//
+//https.createServer(options, app).listen(port);
 console.log('Server up at https://localhost:' + port)
 
 function general_data_parse(data){
