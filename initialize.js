@@ -21,21 +21,48 @@ var users = [
     email: "chan.han.1@us.af.mil",
     password: "password1",
     role: "admin",
-    id: 1
+    id: 999
   },
   {
     email: "caleb.ziegler.1@us.af.mil",
     password: "password2",
-    role: "peasant",
-    id: 3
+    role: "admin",
+    id: 999
   },
   {
     email: "gregory.anderson.26@us.af.mil",
     password: "password3",
-    role: "peon",
-    id: 5
+    role: "admin",
+    id: 999
+  },
+  {
+    email: "officer@us.af.mil",
+    password: "password",
+    role: "officer",
+    id: 999
+  },
+  {
+    email: "billet.owner@us.af.mil",
+    password: "password",
+    role: "billet_owner",
+    id: 999
+  },
+  {
+    email: "losingcc@us.af.mil",
+    password: "password",
+    role: "losing_commander",
+    id: 999
   },
 ]
+
+for (let i=1;i<101;i++){
+  users.push({
+    email: "officer."+i+"@us.af.mil",
+    password: "password",
+    role: "officer",
+    id: i
+  })
+}
 
 var sql2 = `
 INSERT INTO user(email, password, role, hash, salt, id)
