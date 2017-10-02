@@ -26,7 +26,7 @@ app.set('jwtSecret', config.jwtSecret) // secret variable
 
 //CORS
 //Requests are only allowed from whitelisted url
-var whitelist = ['https://localhost:8080']
+var whitelist = ['http://localhost:8080','https://localhost:8080']
 var corsOptions = {
     origin: function (origin, callback){
         // whitelist-test pass
@@ -63,8 +63,6 @@ app.get('/', (req, res)=> {
 
 // API ROUTES -------------------
 var apiRoutes = express.Router()
-
-
 
 // Login Attempt Limit middleware
 var failCallback = function (req, res, next, nextValidRequestDate) {
@@ -170,12 +168,20 @@ apiRoutes.use(function(req, res, next){
 //route middleware to verify authority
 apiRoutes.use(function(req, res, next){
 
-    //offciers/officerId only accessible by admin
     var role = req.decoded.role
     var path = req.path
 
     //temporary route blocking
-    if (role=='admin' || role =='peon' || role =='peasant'){
+    if (role=='admin'){
+        next()
+    }
+    else if (role=='officer' && (path=='/billet_view' || path == '/officers')){
+        next()
+    }
+    else if (role=='billet_owner' && (path=='/officer_view' || path == '/billets')){
+        next()
+    }
+    else if (role=='losing_commander' && path=='/officers'){
         next()
     }
     //Without proper role
@@ -183,7 +189,7 @@ apiRoutes.use(function(req, res, next){
         res.status(403)
         res.json({
             success: false,
-            message: 'Caleb Not allowed'
+            message: 'Forbidden'
         })
     }
 })
