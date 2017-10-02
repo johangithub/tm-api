@@ -42,7 +42,6 @@ var corsOptions = {
     }
 }
 app.use(cors(corsOptions))
-
 // helmet protects the application with various functions
 app.use(helmet())
 
@@ -147,6 +146,7 @@ apiRoutes.post('/authenticate',
 //route middleware to verify a token
 apiRoutes.use(function(req, res, next){
     var token = req.body.token || req.query.token || req.headers['x-access-token'] || req.headers.authorization
+    console.log(req.body.token, req.query.token  , req.headers['x-access-token'] , req.headers.authorization)
     if (token){
         jwt.verify(token, app.get('jwtSecret'), function(err, decoded){
             if (err){
@@ -156,6 +156,7 @@ apiRoutes.use(function(req, res, next){
             }
             else {
                 req.decoded = decoded
+                console.log(decoded)
                 next()
             }
         })
@@ -250,6 +251,12 @@ apiRoutes.get('/billet_view', (req, res)=>{
     })
 })
 
+////API endpoint for officers submitting ranked billets
+//apiRoutes.put('/billets_fave', (req, res)=>{
+    //var sqlPut = 'UPDATE officers set rankedBillets = (?) where 
+    
+//})
+
 //API End point for overview of officers
 apiRoutes.get('/officer_view', (req, res)=>{
     var sqlget = `SELECT rtg, flt_hrs_total, grade, rdtm, adjYG, id from officers`
@@ -283,10 +290,40 @@ function handleBuffer(row){
     return temp
 }
 
+//API endpoint for officers submitting ranked billets
+apiRoutes.post('/officers', (req, res)=>{
+    var officerId = req.decoded.id
+    var comment = req.body.comment
+    console.log(officerId)
+    console.log(comment)
+    var sqlPost = 'INSERT into officers (comment) values (?) where rowid = (?)'
+    db.post(sqlPost, [comment,officerId], (err, user)=>{
+        //If error
+        if (err){
+            throw err
+        }
+        //If user not found
+        else if (!user){
+            res.status(404).send({
+                success: false,
+                message: 'User not found.'
+            })      
+        }
+        //If user found
+        else if (user){
+            res.status(200).send({
+                success: true,
+                message: 'Successfully submitted.'
+            })
+        }
+    })
+})
+
+//API endpoint for My Profile 
 apiRoutes.get('/officers', (req, res)=>{
-    var rowid = Math.floor(Math.random() * 100) + 1  
-    var sqlget = `SELECT * from officers where rowid = ?`
-    db.get(sqlget, rowid, (err, row)=>{
+    var rowid = req.decoded.id 
+    var sqlget = `SELECT * from officers where rowid = (?)`
+    db.get(sqlget, [rowid], (err, row)=>{
         if (err){
             throw err
         }
@@ -314,28 +351,8 @@ apiRoutes.get('/officers', (req, res)=>{
         }
     })
 })
-apiRoutes.get('/officers/:officerId', (req, res)=>{
-    var sqlget = `SELECT ? as officerId`
-    var officerId = req.params.officerId
-    db.get(sqlget, [officerId], (err, row)=>{
-        if (err){
-            throw err
-        }
-        else if (!row){
-            res.json({
-                success: false,
-                message: 'Officer not found.'
-            })     
-        }
-        else {
-            res.json({
-                success: true,
-                officerId: row.officerId
-            })
-        }
-    })
-})
 
+//API endpoint for my billets page
 apiRoutes.get('/billets/:billetId', (req, res)=>{
     res.json({
         success: true,
