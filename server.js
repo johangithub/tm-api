@@ -237,7 +237,7 @@ apiRoutes.get('/billet_view', (req, res)=>{
                             RDTM as aircraft,
                             case length(AEW) when 2 then AEW else 'NONE' end as state 
                          from billets`
-        db.all(sqlget, [], (err, rows)=>{
+        db.all(sqlget, [], function(err, rows){
         try{
         var data = []
         rows.forEach((row)=>{
@@ -257,21 +257,40 @@ apiRoutes.get('/billet_view', (req, res)=>{
 
 //API End point for temporary billet overview
 apiRoutes.get('/billet_view2', (req, res)=>{
-    var sqlget = `SELECT CAST(AFPCID as INT) as id,
-                            position_AFSC_Core as afsc,
-                            RPI as api,
-                            AJJ as location,
-                            Unit as unit,
-                            Authorized_Rank as grade,    
-                            case conus when 1 then 'CONUS' else 'OCONUS' end as conus,
-                            RDTM as aircraft,
-                            case length(AEW) when 2 then AEW else 'NONE' end as state from billets limit 5`
-        db.all(sqlget, [], (err, rows)=>{
+    var sqlget = `SELECT 
+    CAST(AFPCID as INT) as id,
+    position_AFSC_Core as afsc,
+    RPI as api,
+    AJJ as location,
+    Unit as unit,
+    Authorized_Rank as grade,    
+    case conus when 1 then 'CONUS' else 'OCONUS' end as conus,
+    RDTM as aircraft,
+    case length(AEW) when 2 then AEW else 'NONE' end as state,
+    GeneralDutyTitle as general_duty_title,
+    ActualDutyTitle as actual_duty_title,
+    Description as description,
+    mandatory_quals as quals,
+    PRD_Remarks as prd_remarks,
+    MAJCOM as majcom,
+    position as position,
+    pas as pas 
+     from billets`
+        db.all(sqlget, [], function(err, rows){
         try{
         var data = []
         rows.forEach((row)=>{
             data.push(handleBuffer(row))
         })
+        function shuffle(a) {
+            for (let i = a.length; i; i--) {
+                let j = Math.floor(Math.random() * i);
+                [a[i - 1], a[j]] = [a[j], a[i - 1]];
+            }
+            return a
+        }
+        // data = shuffle(data).slice(0,20)
+        data = data.slice(0,20)
         res.json({
           success: true,
           data: data
