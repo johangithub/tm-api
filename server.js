@@ -251,12 +251,6 @@ apiRoutes.get('/billet_view', (req, res)=>{
     })
 })
 
-////API endpoint for officers submitting ranked billets
-//apiRoutes.put('/billets_fave', (req, res)=>{
-    //var sqlPut = 'UPDATE officers set rankedBillets = (?) where 
-    
-//})
-
 //API End point for overview of officers
 apiRoutes.get('/officer_view', (req, res)=>{
     var sqlget = `SELECT rtg, flt_hrs_total, grade, rdtm, adjYG, id from officers`
@@ -294,23 +288,26 @@ function handleBuffer(row){
 apiRoutes.post('/officers', (req, res)=>{
     var officerId = req.decoded.id
     var comment = req.body.comment
-    console.log(officerId)
-    console.log(comment)
-    var sqlPost = 'INSERT into officers (comment) values (?) where rowid = (?)'
-    db.post(sqlPost, [comment,officerId], (err, user)=>{
+    var departureDate = req.body.desiredDepartureDate
+    var desiredRNLTD = req.body.desiredRNLTD
+    var interests = req.body.interests
+    var qualifications = req.body.qualifications
+    console.log(req.body)
+    var sqlPost = `UPDATE officers set comment = (?), 
+                                   departureDate = (?), 
+                                   desiredRNLTD = (?), 
+                                   interests = (?), 
+                                   qualifications = (?) 
+                                       where rowid = (?)`
+    db.run(sqlPost, [comment, departureDate, desiredRNLTD, interests, qualifications, officerId], function(err){
         //If error
         if (err){
             throw err
         }
-        //If user not found
-        else if (!user){
-            res.status(404).send({
-                success: false,
-                message: 'User not found.'
-            })      
-        }
-        //If user found
-        else if (user){
+        //If success 
+        else {
+            //changes property used for confirming update or delete statements
+            console.log("Rows changed: " + this.changes)
             res.status(200).send({
                 success: true,
                 message: 'Successfully submitted.'
@@ -318,6 +315,33 @@ apiRoutes.post('/officers', (req, res)=>{
         }
     })
 })
+
+//API endpoint for officers getting ranked billets
+
+//API endpoint for officers submitting ranked billets
+apiRoutes.post('/billets_fave', (req, res)=>{
+    var officerId = req.decoded.id
+    var rankedBillets = req.body.rankedBillets
+    console.log(req.decoded)
+    console.log(req.body)
+    var sqlPost = 'UPDATE officers set rankedBillets = (?) where rowid = (?)' 
+    db.run(sqlPost, [rankedBillets, officerId], (err)=>{
+        //If error
+        if (err){
+            throw err
+        }
+        //If success 
+        else {
+            //changes property used for confirming update or delete statements
+            console.log("Rows changed: " + this.changes)
+            res.status(200).send({
+                success: true,
+                message: 'Successfully submitted.'
+            })
+        }
+    })
+})
+
 
 //API endpoint for My Profile 
 apiRoutes.get('/officers', (req, res)=>{
@@ -328,6 +352,7 @@ apiRoutes.get('/officers', (req, res)=>{
             throw err
         }
         else {
+            console.log(row)
             data = handleBuffer(row)
             
             data['language'] = language_data_parse(data)
