@@ -246,6 +246,26 @@ apiRoutes.get('/billet_view', (req, res)=>{
     })
 })
 
+//API End point for temporary billet overview
+apiRoutes.get('/billet_view2', (req, res)=>{
+    var sqlget = `SELECT * from billets limit 5`
+        db.all(sqlget, [], (err, rows)=>{
+        try{
+        var data = []
+        rows.forEach((row)=>{
+            data.push(handleBuffer(row))
+        })
+        res.json({
+          success: true,
+          data: data
+        })
+        }
+        catch(err){
+            console.log(err)
+        }
+    })
+})
+
 //API End point for overview of officers
 apiRoutes.get('/officer_view', (req, res)=>{
     var sqlget = `SELECT rtg, flt_hrs_total, grade, rdtm, adjYG, id from officers`
@@ -288,24 +308,24 @@ apiRoutes.get('/officers', (req, res)=>{
         }
         else {
             data = handleBuffer(row)
-            
-            data['language'] = language_data_parse(data)
-            data['general'] = general_data_parse(data)
-            data['projected'] = projection_data_parse(data)
-            data['duty'] = duty_data_parse(data)
-            data['asgn_code'] = asgn_code_parse(data)
-            data['service_dates'] = service_dates_parse(data)
-            data['rated'] = rated_data_parse(data)
-            data['courses'] = course_data_parse(data)
-            data['adsc'] = adsc_data_parse(data)
-            data['degree'] = degree_data_parse(data)
-            data['pme'] = pme_data_parse(data)
-            data['joint'] = joint_data_parse(data)
-            data['special_experience'] = special_experience_parse(data)
-            data.rowid = rowid
+            outData = {}
+            outData['language'] = language_data_parse(data)
+            outData['general'] = general_data_parse(data)
+            outData['projected'] = projection_data_parse(data)
+            outData['duty'] = duty_data_parse(data)
+            outData['asgn_code'] = asgn_code_parse(data)
+            outData['service_dates'] = service_dates_parse(data)
+            outData['rated'] = rated_data_parse(data)
+            outData['courses'] = course_data_parse(data)
+            outData['adsc'] = adsc_data_parse(data)
+            outData['degree'] = degree_data_parse(data)
+            outData['pme'] = pme_data_parse(data)
+            outData['joint'] = joint_data_parse(data)
+            outData['special_experience'] = special_experience_parse(data)
+            outData.rowid = rowid
             res.json({
                 success: true,
-                data: data
+                data: outData
             })
         }
     })
@@ -346,15 +366,16 @@ app.use('/api', apiRoutes)
 // =======================
 
 
-// app.listen(port)
-const options = {
-  key: fs.readFileSync('../tm/localhost.key'),
-  cert: fs.readFileSync('../tm/localhost.crt'),
-  passphrase: '1234'
-};
+app.listen(port)
+// const options = {
+//   key: fs.readFileSync('../tm/localhost.key'),
+//   cert: fs.readFileSync('../tm/localhost.crt'),
+//   passphrase: '1234'
+// };
 
-https.createServer(options, app).listen(port);
-console.log('Server up at https://localhost:' + port)
+// https.createServer(options, app).listen(port);
+// console.log('Server up at https://localhost:' + port)
+
 
 function general_data_parse(data){
     general_data = {}
@@ -370,18 +391,7 @@ function general_data_parse(data){
     general_data['aef_start_date'] = formatSASDate(data['aef_start_Date'])
     general_data['aef_stop_date'] = formatSASDate(data['aef_stop_Date'])
     general_data['short_tour_num'] = data['short_tour_nbr'] ? data['short_tour_nbr'].trim() : 0 
-    delete data['grade_proj']
-    delete data['grade']
-    delete data['component_t']
-    delete data['func_cat']
-    delete data['comp_cat']
-    delete data['record_status']
-    delete data['accounting_status']
-    delete data['position_number']
-    delete data['aef']
-    delete data['aef_start_date']
-    delete data['aef_stop_date']
-    delete data['short_tour_nbr']
+
     
     return general_data
 }
@@ -395,12 +405,7 @@ function projection_data_parse(data){
     proj_asgn['pdd'] = formatSASDate(data['pdd'])
     proj_asgn['rnltd'] = formatSASDate(data['rnltd'])
 
-    delete data['pas_proj']
-    delete data['afsc_selected']
-    delete data['asd']
-    delete data['pdd']
-    delete data['rnltd']
-
+                    
     proj_duty = {}
     proj_duty['eff_date'] = formatSASDate(data['duty_status_proj_eff_date'])
     proj_duty['exp_date'] = formatSASDate(data['duty_status_proj_exp_date'])
@@ -409,14 +414,7 @@ function projection_data_parse(data){
     proj_duty['cmd_lvl_pending'] = data['cmd_lvl_pending']
     proj_duty['afsc_pending'] = data['dafsc_pending']
     proj_duty['eff_date_pending'] = formatSASDate(data['duty_eff_date_pending'])
-    delete data['duty_status_proj_eff_date']
-    delete data['duty_status_proj_exp_date']
-    delete data['duty_status_proj']
-    delete data['duty_title_pending']
-    delete data['cmd_lvl_pending']
-    delete data['dafsc_pending']
-    delete data['duty_eff_date_pending']
-
+                            
     proj_course = []
     var i = 1
     while (data['projected_training_'+i]){
@@ -425,10 +423,6 @@ function projection_data_parse(data){
         course_temp['course_ct'] = data['projected_training_ct_'+i]
         course_temp['start_date'] = formatSASDate(data['projected_training_start_date_'+i])
         course_temp['grad_date'] = formatSASDate(data['projected_training_grad_date_'+i])
-        delete data['projected_training_'+i]
-        delete data['projected_training_ct_'+i]
-        delete data['projected_training_start_date_'+i]
-        delete data['projected_training_grad_date_'+i]
         proj_course.push(course_temp)
         i += 1   
     }
@@ -459,23 +453,6 @@ function duty_data_parse(data){
         temp['command_level'] = data['duty_hist_cmd_lvl_'+i]
         temp['eff_date'] = formatSASDate(data['duty_hist_eff_date_'+i])
         duty_history.push(temp)
-        delete data['hist_org_num_'+i] 
-        delete data['hist_org_type_'+i] 
-        delete data['hist_org_level_'+i] 
-        delete data['hist_org_det_'+i] 
-        delete data['hist_majcom_'+i] 
-        delete data['hist_unit_'+i] 
-        delete data['duty_hist_eff_date_'+i]
-        delete data['duty_hist_title_'+i]
-        delete data['duty_hist_dafsc_'+i]
-        delete data['duty_hist_org_num_'+i]
-        delete data['duty_hist_org_suffix_'+i]
-        delete data['duty_hist_org_type_'+i]
-        delete data['duty_hist_org_level_'+i]
-        delete data['duty_hist_majcom_'+i]
-        delete data['duty_hist_cmd_lvl_'+i]
-        delete data['duty_hist_cntryst_'+i]
-        delete data['duty_hist_loc_'+i]
         }
     }
 
@@ -485,15 +462,10 @@ function duty_data_parse(data){
         exp_temp = {}
         exp_temp['duty_title'] = data['exp_duty_afs_title_'+i]
         exp_temp['duty_years'] = Math.round(data['exp_duty_calc_yrs_in_afs_'+i] * 10 ) / 10
-        //delete data['exp_duty_afs_title_'+i]
-        //delete data['exp_duty_calc_yrs_in_afs_'+i]
         if (exp_temp['duty_title']){
             duty_exp.push(exp_temp)
         }
-        delete data['exp_duty_afs_title_'+i]
-        delete data['exp_duty_calc_yrs_in_afs_'+i]
     }
-
 
     duty_data['status'] = data['duty_status']
     duty_data['status_ct'] = data['duty_status_ct']
@@ -509,23 +481,7 @@ function duty_data_parse(data){
     duty_data['org_det'] = data['org_det']
     duty_data['pas'] = data['pas']
     duty_data['core_group'] = data['core_derived_group']
-    duty_data['status_expire_date'] = formatSASDate(data['duty_status_exp_date'])
-    delete data['duty_status']
-    delete data['duty_status_ct']
-    delete data['duty_title']
-    delete data['afsc_duty']
-    delete data['afsc_1']
-    delete data['afsc_2']
-    delete data['afsc_3']
-    delete data['org_unit']
-    delete data['org_num']
-    delete data['org_type']    
-    delete data['org_level']
-    delete data['org_det']
-    delete data['pas']
-    delete data['core_derived_group']
-    delete data['duty_status_exp_date']
-
+    duty_data['status_expire_date'] = formatSASDate(data['duty_status_exp_date'])                  
     duty_data['history'] = duty_history
     duty_data['experience'] = duty_exp
     return duty_data
@@ -537,7 +493,6 @@ function service_dates_parse(data){
     'tfcsd', 'grade_eff_date', 'dor', 'tafmsd', 'deros', 'cc_date', 'retsep_eff_date_proj']
     for (let i=0;i<service_dates_column.length;i++){
         service_dates[service_dates_column[i]] = formatSASDate(data[service_dates_column[i]])
-        delete data[service_dates_column[i]]
     }
     return service_dates
 }
@@ -564,26 +519,7 @@ function rated_data_parse(data){
     rated_data['aero_rating_date'] = formatSASDate(data['aero_rating_date'])
     rated_data['return_to_fly_date'] = formatSASDate(data['return_to_fly_date'])
 
-    delete data['aero_rating']
-    delete data['aero_rating_ct']
-    delete data['flt_activity_code']
-    delete data['gates_curr']
-    delete data['flt_hrs_combat']
-    delete data['flt_hrs_instr']
-    delete data['flt_hrs_total']
-    delete data['avn_service_code']
-    delete data['avn_service_code_ct']
-    delete data['rdtm']
-    delete data['aircrew_position_id']
-    delete data['acp_status']
-    delete data['acp_status_ct']
-    delete data['avn_service_date']
-    delete data['acp_elig_date']
-    delete data['acp_effective_date']
-    delete data['acp_stop_date']
-    delete data['aero_rating_date']
-    delete data['return_to_fly_date']
-
+                                                                            
     aircraft_history = []
     var i = 1
     while (data['acft_hist_'+i]){
@@ -592,10 +528,7 @@ function rated_data_parse(data){
         acft_temp['aircraft_date_flown'] = formatSASDate(data['acft_hist_date_flown_'+i])
         acft_temp['hours'] = Math.round(data['acft_hist_hrs_'+i] * 10 ) / 10
         aircraft_history.push(acft_temp)
-        delete data['acft_hist_'+i]
-        delete data['acft_hist_date_flown_'+i]
-        delete data['acft_hist_hrs_'+i]
-        i += 1
+                                i += 1
     }
     rated_data['aircraft_history'] = aircraft_history
     return rated_data
@@ -614,17 +547,11 @@ function degree_data_parse(data){
         degree_temp['school'] = data['acad_educ_inst_'+i]
         degree_temp['date'] = formatSASDate(data['acad_educ_date_'+i])
         degree_hist.push(degree_temp)
-        delete data['acad_spec_'+i]
-        delete data['acad_spec_ct_'+i]
-        delete data['acad_educ_level_'+i]
-        delete data['acad_educ_meth_'+i]
-        delete data['acad_educ_inst_'+i]
-        delete data['acad_educ_date_'+i]
         i += 1
     }
+
     degree_data['history'] = degree_hist
     degree_data['highest'] = data['acad_edu_level_high']
-    delete data['acad_edu_level_high']
     return degree_data
 }
 
@@ -635,9 +562,7 @@ function course_data_parse(data){
         course_temp = {}
         course_temp['course'] = data['course_'+i]
         course_temp['date'] = formatSASDate(data['course_date_'+i])
-        delete data['course_'+i]
-        delete data['course_date_'+i]
-        course_data.push(course_temp)
+                        course_data.push(course_temp)
         i+=1
     }
     return course_data
@@ -653,16 +578,12 @@ function pme_data_parse(data){
         pme_temp['date'] = formatSASDate(data['pme_date_'+i])
         pme_temp['method'] = data['pme_method_'+i]
         pme_temp['level'] = data['pme_level_'+i]
-        delete data['pme_'+i]
-        delete data['pme_date_'+i]
-        delete data['pme_method_'+i]
-        delete data['pme_level_'+i] 
+                                delete data['pme_level_'+i] 
         pme_hist.push(pme_temp)
         i+=1
     }
     pme_data['history'] = pme_hist
     pme_data['pme_highest'] = data['pme_highest']
-    delete data['pme_highest']
     return pme_data
 }
 
@@ -679,22 +600,12 @@ function joint_data_parse(data){
         joint_temp['reason'] = data['jda_completion_rsn_'+i]
         joint_temp['posn'] = data['jdamis_posn_number_'+i]
         joint_hist.push(joint_temp)
-        delete data['jda_start_date_'+i]
-        delete data['jda_stop_date_'+i]
-        delete data['jda_tour_type_'+i]
-        delete data['jda_tour_credit_'+i]
-        delete data['jda_completion_rsn_'+i]
-        delete data['jdamis_posn_number_'+i]
         i += 1
     }
     joint_data['history'] = joint_hist
     joint_data['jso_code'] = data['jso_spec_code']
     joint_data['jda_flag'] = data['jda_flag']
-    joint_data['jso_jsonum_status'] = data['jso_jsonum_status']
-    delete data['jso_spec_code']
-    delete data['jda_flag']
-    delete data['jso_jsonum_status']
-
+    joint_data['jso_jsonum_status'] = data['jso_jsonum_status'] 
     return joint_data
 
 }
@@ -707,8 +618,6 @@ function adsc_data_parse(data){
         adsc_temp['adsc'] = data['adsc_'+i]
         adsc_temp['date'] = formatSASDate(data['adsc_date_'+i])
         adsc_data.push(adsc_temp)
-        delete data['adsc_'+i]
-        delete data['adsc_date_'+i]
         i += 1
     }
     return adsc_data
@@ -724,9 +633,6 @@ function special_experience_parse(data){
         nei_temp['start_date'] = formatSASDate(data['nei_start_date_'+i])
         nei_temp['stop_date'] = formatSASDate(data['nei_stop_date_'+i])
         nei_list.push(nei_temp)
-        delete data['nei_'+i]
-        delete data['nei_start_date_'+i]
-        delete data['nei_stop_date_'+i]
         i += 1
     }
 
@@ -736,24 +642,19 @@ function special_experience_parse(data){
         sei_temp = {}
         sei_temp['sei'] = data['sei_gen_'+i]
         sei_list.push(sei_temp)
-        delete data['sei_gen_'+i]
         i += 1
     }
 
     spec_exp['sei_duty'] = data['sei_duty']
     spec_exp['nuclear'] = nei_list
     spec_exp['sei'] = sei_list
-    delete data['sei_duty']
-
+    
     var acq_data = {}
     acq_data['career_level'] = data['auth_acq_career_lvl']
     acq_data['posn_cat'] = data['auth_acq_posn_cat']
     acq_data['posn_type'] = data['auth_acq_posn_type']
     spec_exp['acquisitions'] = acq_data
-    delete data['auth_acq_career_lvl']
-    delete data['auth_acq_posn_cat']
-    delete data['auth_acq_posn_type']
-
+            
     return spec_exp
 }
 
@@ -766,22 +667,16 @@ function language_data_parse(data){
         lang_temp['listen'] = data['lang_listen_comp_'+i]
         lang_temp['read'] = data['lang_read_comp_'+i]
         lang_temp['date'] = formatSASDate(data['lang_test_date_'+i])
-        delete data['lang_id_'+i]
-        delete data['lang_listen_comp_'+i]
-        delete data['lang_read_comp_'+i]
-        delete data['lang_speak_comp_'+i]
-        delete data['lang_test_date_'+i]
-        if (lang_temp['id']){
+                                                if (lang_temp['id']){
             lang_list.push(lang_temp)
         }
     }
     lang_data['list'] = lang_list 
     lang_data['dlab_score'] = Number(data['lang_dlab_score'])
     lang_data['dlab_date'] = formatSASDate(data['lang_dlab_date'])
-    delete data['lang_dlab_score']
-    delete data['lang_dlab_date']
     return lang_data
 }
+
 function asgn_code_parse(data){
     var asgn_data = {}
     var i = 1
@@ -791,14 +686,6 @@ function asgn_code_parse(data){
         abc_temp['date'] = formatSASDate(data['abc_date_'+i])
         abc_temp['code'] = data['abc_'+i]
         abc_list.push(abc_temp)
-        delete data['abc_date_'+i]
-        delete data['abc_'+i]
-        i+=1
-    }
-
-    // Somehow empty assignment block code is being brought in
-    while (i<=10){
-        delete data['abc_'+i]
         i+=1
     }
 
@@ -809,8 +696,6 @@ function asgn_code_parse(data){
         aac_temp['date'] = formatSASDate(data['aac_date_'+i])
         aac_temp['code'] = data['aac_'+i]
         aac_list.push(aac_temp)
-        delete data['aac_date_'+i]
-        delete data['aac_'+i]
         i+=1
     }
 
@@ -821,11 +706,8 @@ function asgn_code_parse(data){
         alc_temp['date'] = formatSASDate(data['alc_date_'+i])
         alc_temp['code'] = data['alc_'+i]
         alc_list.push(alc_temp)
-        delete data['alc_date_'+i]
-        delete data['alc_'+i]
         i+=1
     }
-
 
     asgn_data['block_code'] = abc_list
     asgn_data['avail_code'] = aac_list
