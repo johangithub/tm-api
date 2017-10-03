@@ -30,8 +30,7 @@ var whitelist = ['http://localhost:8080','https://localhost:8080']
 var corsOptions = {
     origin: function (origin, callback){
         // whitelist-test pass
-        console.log(origin)
-        if (whitelist.indexOf(origin) !== -1){
+        if (true){//(whitelist.indexOf(origin) !== -1){
             callback(null, true)
         }
         // whitelist-test fail
@@ -41,7 +40,6 @@ var corsOptions = {
     }
 }
 app.use(cors(corsOptions))
-
 // helmet protects the application with various functions
 app.use(helmet())
 
@@ -172,16 +170,17 @@ apiRoutes.use(function(req, res, next){
     var path = req.path
 
     //temporary route blocking
-    if (role=='admin'){
-        next()
-    }
-    else if (role=='officer' && (path=='/billet_view' || path == '/officers')){
-        next()
-    }
-    else if (role=='billet_owner' && (path=='/officer_view' || path == '/billets')){
-        next()
-    }
-    else if (role=='losing_commander' && path=='/officers'){
+//     if (role=='admin'){
+//         next()
+//     }
+//     else if (role=='officer' && (path=='/billet_view' || path == '/officers')){
+//         next()
+//     }
+//     else if (role=='billet_owner' && (path=='/officer_view' || path == '/billets')){
+//         next()
+//     }
+//     else if (role=='losing_commander' && path=='/officers'){
+    if (role){
         next()
     }
     //Without proper role
@@ -228,7 +227,16 @@ apiRoutes.get('/users', (req, res)=>{
 
 //API End point for billet overview
 apiRoutes.get('/billet_view', (req, res)=>{
-    var sqlget = `SELECT * from billets`
+    var sqlget = `SELECT    CAST(AFPCID as INT) as id,
+                            position_AFSC_Core as afsc,
+                            RPI as api,
+                            AJJ as location,
+                            Unit as unit,
+                            Authorized_Rank as grade,    
+                            case conus when 1 then 'CONUS' else 'OCONUS' end as conus,
+                            RDTM as aircraft,
+                            case length(AEW) when 2 then AEW else 'NONE' end as state 
+                         from billets`
         db.all(sqlget, [], (err, rows)=>{
         try{
         var data = []
@@ -246,9 +254,18 @@ apiRoutes.get('/billet_view', (req, res)=>{
     })
 })
 
+
 //API End point for temporary billet overview
 apiRoutes.get('/billet_view2', (req, res)=>{
-    var sqlget = `SELECT * from billets limit 5`
+    var sqlget = `SELECT CAST(AFPCID as INT) as id,
+                            position_AFSC_Core as afsc,
+                            RPI as api,
+                            AJJ as location,
+                            Unit as unit,
+                            Authorized_Rank as grade,    
+                            case conus when 1 then 'CONUS' else 'OCONUS' end as conus,
+                            RDTM as aircraft,
+                            case length(AEW) when 2 then AEW else 'NONE' end as state from billets limit 5`
         db.all(sqlget, [], (err, rows)=>{
         try{
         var data = []
@@ -265,6 +282,13 @@ apiRoutes.get('/billet_view2', (req, res)=>{
         }
     })
 })
+
+////API endpoint for officers submitting ranked billets
+//apiRoutes.put('/billets_fave', (req, res)=>{
+    //var sqlPut = 'UPDATE officers set rankedBillets = (?) where 
+    
+//})
+
 
 //API End point for overview of officers
 apiRoutes.get('/officer_view', (req, res)=>{
@@ -299,10 +323,40 @@ function handleBuffer(row){
     return temp
 }
 
+//API endpoint for officers submitting ranked billets
+apiRoutes.post('/officers', (req, res)=>{
+    var officerId = req.decoded.id
+    var comment = req.body.comment
+    console.log(officerId)
+    console.log(comment)
+    var sqlPost = 'INSERT into officers (comment) values (?) where rowid = (?)'
+    db.post(sqlPost, [comment,officerId], (err, user)=>{
+        //If error
+        if (err){
+            throw err
+        }
+        //If user not found
+        else if (!user){
+            res.status(404).send({
+                success: false,
+                message: 'User not found.'
+            })      
+        }
+        //If user found
+        else if (user){
+            res.status(200).send({
+                success: true,
+                message: 'Successfully submitted.'
+            })
+        }
+    })
+})
+
+//API endpoint for My Profile 
 apiRoutes.get('/officers', (req, res)=>{
-    var rowid = Math.floor(Math.random() * 100) + 1  
-    var sqlget = `SELECT * from officers where rowid = ?`
-    db.get(sqlget, rowid, (err, row)=>{
+    var rowid = req.decoded.id 
+    var sqlget = `SELECT * from officers where rowid = (?)`
+    db.get(sqlget, [rowid], (err, row)=>{
         if (err){
             throw err
         }
@@ -330,28 +384,8 @@ apiRoutes.get('/officers', (req, res)=>{
         }
     })
 })
-apiRoutes.get('/officers/:officerId', (req, res)=>{
-    var sqlget = `SELECT ? as officerId`
-    var officerId = req.params.officerId
-    db.get(sqlget, [officerId], (err, row)=>{
-        if (err){
-            throw err
-        }
-        else if (!row){
-            res.json({
-                success: false,
-                message: 'Officer not found.'
-            })     
-        }
-        else {
-            res.json({
-                success: true,
-                officerId: row.officerId
-            })
-        }
-    })
-})
 
+//API endpoint for my billets page
 apiRoutes.get('/billets/:billetId', (req, res)=>{
     res.json({
         success: true,
@@ -376,6 +410,7 @@ app.listen(port)
 // https.createServer(options, app).listen(port);
 // console.log('Server up at https://localhost:' + port)
 
+console.log('Server up at http://localhost:' + port)
 
 function general_data_parse(data){
     general_data = {}
