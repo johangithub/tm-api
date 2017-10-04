@@ -227,37 +227,7 @@ apiRoutes.get('/users', (req, res)=>{
 
 //API End point for billet overview
 apiRoutes.get('/billet_view', (req, res)=>{
-    var sqlget = `SELECT    CAST(AFPCID as INT) as id,
-                            position_AFSC_Core as afsc,
-                            RPI as api,
-                            AJJ as location,
-                            Unit as unit,
-                            Authorized_Rank as grade,    
-                            case conus when 1 then 'CONUS' else 'OCONUS' end as conus,
-                            RDTM as aircraft,
-                            case length(AEW) when 2 then AEW else 'NONE' end as state 
-                         from billets`
-        db.all(sqlget, [], function(err, rows){
-        try{
-        var data = []
-        rows.forEach((row)=>{
-            data.push(handleBuffer(row))
-        })
-        res.json({
-          success: true,
-          data: data
-        })
-        }
-        catch(err){
-            console.log(err)
-        }
-    })
-})
-
-
-//API End point for temporary billet overview
-apiRoutes.get('/billet_view2', (req, res)=>{
-    var sqlget = `SELECT 
+    var sqlget = `SELECT     
     CAST(AFPCID as INT) as id,
     position_AFSC_Core as afsc,
     RPI as api,
@@ -275,22 +245,13 @@ apiRoutes.get('/billet_view2', (req, res)=>{
     MAJCOM as majcom,
     position as position,
     pas as pas 
-     from billets`
+                         from billets`
         db.all(sqlget, [], function(err, rows){
         try{
         var data = []
         rows.forEach((row)=>{
             data.push(handleBuffer(row))
         })
-        function shuffle(a) {
-            for (let i = a.length; i; i--) {
-                let j = Math.floor(Math.random() * i);
-                [a[i - 1], a[j]] = [a[j], a[i - 1]];
-            }
-            return a
-        }
-        // data = shuffle(data).slice(0,20)
-        data = data.slice(0,20)
         res.json({
           success: true,
           data: data
