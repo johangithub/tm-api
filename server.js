@@ -263,6 +263,43 @@ apiRoutes.get('/billet_view', (req, res)=>{
     })
 })
 
+apiRoutes.get('/ao_dashboard_view', (req, res)=>{
+    var sqlget = `SELECT * from officers`
+    db.all(sqlget, [], (err, rows)=>{
+        if (err){
+            throw err
+        }
+        else {
+            var outData = []
+            rows.forEach((row)=>{
+                temp={}
+                data = handleBuffer(row)
+                temp['dod_id'] = data['ID']
+                temp['general'] = general_data_parse(data)
+                temp['language'] = language_data_parse(data)
+                temp['projected'] = projection_data_parse(data)
+                temp['duty'] = duty_data_parse(data)
+                temp['asgn_code'] = asgn_code_parse(data)
+                temp['service_dates'] = service_dates_parse(data)
+                temp['rated'] = rated_data_parse(data)
+                temp['courses'] = course_data_parse(data)
+                temp['adsc'] = adsc_data_parse(data)
+                temp['degree'] = degree_data_parse(data)
+                temp['pme'] = pme_data_parse(data)
+                temp['joint'] = joint_data_parse(data)
+                temp['special_experience'] = special_experience_parse(data)
+                temp['vml'] = Math.random() > .5 ? true : false
+                outData.push(temp)
+            })
+            
+            res.json({
+                success: true,
+                data: outData
+            })
+        }
+    })
+})
+
 //API End point for overview of officers
 apiRoutes.get('/officer_view', (req, res)=>{
     var sqlget = `SELECT rtg, flt_hrs_total, grade, rdtm, adjYG, id from officers`
@@ -418,8 +455,11 @@ console.log('Server up at http://localhost:' + port)
 
 function general_data_parse(data){
     general_data = {}
+    general_data['firstName'] = data['firstName']
+    general_data['lastName'] = data['lastName']
     general_data['proj_grade'] = data['grade_proj']
     general_data['grade'] = data['grade']
+    general_data['adjYG'] = data['adjYG']
     general_data['component'] = data['component_t']
     general_data['func_cat'] = data['func_cat']
     general_data['comp_cat'] = data['comp_cat']
@@ -693,7 +733,8 @@ function special_experience_parse(data){
     acq_data['posn_cat'] = data['auth_acq_posn_cat']
     acq_data['posn_type'] = data['auth_acq_posn_type']
     spec_exp['acquisitions'] = acq_data
-            
+    
+    spec_exp['WIC'] = data['WIC']
     return spec_exp
 }
 
