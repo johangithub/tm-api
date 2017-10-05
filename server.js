@@ -18,6 +18,13 @@ var cors        = require('cors')
 var moment      = require('moment')
 
 // =======================
+// define constants ======
+// =======================
+const START_CYCLE = "2018-05-30"
+const FIRST_RNLTD = "2018-05-31"
+const END_CYCLE = "2018-09-30"
+
+// =======================
 // configuration =========
 // =======================
 var port = process.env.PORT || 5005 // used to create, sign, and verify tokens
@@ -295,15 +302,69 @@ function handleBuffer(row){
     }
     return temp
 }
+//API endpoint for serving up cycle dates
+apiRoutes.get('/cycle_dates', (req, res)=>{
+    var dates = {}
+    dates['startCycle'] = START_CYCLE
+    dates['firstRNLTD'] = FIRST_RNLTD
+    dates['endCycle'] = END_CYCLE
+    res.json({
+        success: true,
+        data: dates
+    })   
+})
 
-//API endpoint for officers submitting ranked billets
+//API endpoint for get requests on My Profile 
+apiRoutes.get('/officers', (req, res)=>{
+    var rowid = req.decoded.id 
+    var sqlget = `SELECT * from officers where rowid = (?)`
+    db.get(sqlget, [rowid], (err, row)=>{
+        if (err){
+            throw err
+        }
+        else {
+            data = handleBuffer(row)
+            console.log(data)
+            outData = {}
+            outData['language'] = language_data_parse(data)
+            outData['general'] = general_data_parse(data)
+            outData['projected'] = projection_data_parse(data)
+            outData['duty'] = duty_data_parse(data)
+            outData['asgn_code'] = asgn_code_parse(data)
+            outData['service_dates'] = service_dates_parse(data)
+            outData['rated'] = rated_data_parse(data)
+            outData['courses'] = course_data_parse(data)
+            outData['adsc'] = adsc_data_parse(data)
+            outData['degree'] = degree_data_parse(data)
+            outData['pme'] = pme_data_parse(data)
+            outData['joint'] = joint_data_parse(data)
+            outData['special_experience'] = special_experience_parse(data)
+            outData['firstName'] = data.firstName
+            outData['lastName'] = data.lastName
+            //don't know if data exists in departureDate or desiredRNLTD, so set default values if not set
+            outData['desiredDepartureDate'] = data.departureDate || START_CYCLE
+            outData['desiredRNLTD'] = data.desiredRNLTD || FIRST_RNLTD
+            //don't know if user submitted quals or interests, so default to empty array if nothing
+            outData['qualifications'] = data.qualifications ? JSON.parse(data.qualifications) : []
+            outData['interests'] = data.interests ? JSON.parse(data.interests) : []
+            outData['comment'] = data.comment
+            outData.rowid = rowid
+            res.json({
+                success: true,
+                data: outData
+            })
+        }
+    })
+})
+
+//API endpoint for officer post requests (submitting ranked billets)
 apiRoutes.post('/officers', (req, res)=>{
     var officerId = req.decoded.id
     var comment = req.body.comment
     var departureDate = req.body.desiredDepartureDate
     var desiredRNLTD = req.body.desiredRNLTD
-    var interests = req.body.interests
-    var qualifications = req.body.qualifications
+    var interests = JSON.stringify(req.body.interests)
+    var qualifications = JSON.stringify(req.body.qualifications)
     console.log(req.body)
     var sqlPost = `UPDATE officers set comment = (?), 
                                    departureDate = (?), 
@@ -329,6 +390,24 @@ apiRoutes.post('/officers', (req, res)=>{
 })
 
 //API endpoint for officers getting ranked billets
+apiRoutes.get('/billets_fave', (req,res)=>{
+    var officerId = req.decoded.id
+    console.log(req.decoded)
+    var sqlGet = 'Select rankedBillets from officers where rowid = (?)'
+    db.get(sqlGet, [officerId], (err,row)=>{
+        if (err){
+            throw err
+        }
+        else {
+            console.log(row)
+            res.json({
+                success: true,
+                data: row
+            })
+        }
+    })
+    
+})
 
 //API endpoint for officers submitting ranked billets
 apiRoutes.post('/billets_fave', (req, res)=>{
@@ -355,39 +434,6 @@ apiRoutes.post('/billets_fave', (req, res)=>{
 })
 
 
-//API endpoint for My Profile 
-apiRoutes.get('/officers', (req, res)=>{
-    var rowid = req.decoded.id 
-    var sqlget = `SELECT * from officers where rowid = (?)`
-    db.get(sqlget, [rowid], (err, row)=>{
-        if (err){
-            throw err
-        }
-        else {
-            console.log(row)
-            data = handleBuffer(row)
-            outData = {}
-            outData['language'] = language_data_parse(data)
-            outData['general'] = general_data_parse(data)
-            outData['projected'] = projection_data_parse(data)
-            outData['duty'] = duty_data_parse(data)
-            outData['asgn_code'] = asgn_code_parse(data)
-            outData['service_dates'] = service_dates_parse(data)
-            outData['rated'] = rated_data_parse(data)
-            outData['courses'] = course_data_parse(data)
-            outData['adsc'] = adsc_data_parse(data)
-            outData['degree'] = degree_data_parse(data)
-            outData['pme'] = pme_data_parse(data)
-            outData['joint'] = joint_data_parse(data)
-            outData['special_experience'] = special_experience_parse(data)
-            outData.rowid = rowid
-            res.json({
-                success: true,
-                data: outData
-            })
-        }
-    })
-})
 
 //API endpoint for my billets page
 apiRoutes.get('/billets/:billetId', (req, res)=>{
@@ -439,6 +485,10 @@ function projection_data_parse(data){
     proj_data = {}
     proj_asgn = {}
     proj_asgn['pas'] = data['pas_proj']
+    console.log('proj')
+    console.log(proj_asgn['pas'])
+    console.log('data')
+    console.log(data['pas_proj'])
     proj_asgn['afsc'] = data['afsc_selected']
     proj_asgn['asd'] = formatSASDate(data['asd'])
     proj_asgn['pdd'] = formatSASDate(data['pdd'])
@@ -510,6 +560,7 @@ function duty_data_parse(data){
     duty_data['status_ct'] = data['duty_status_ct']
     duty_data['title'] = data['duty_title']
     duty_data['dafsc'] = data['afsc_duty']
+    duty_data['core_afsc'] = data['CORE_DERIVED']
     duty_data['afsc_1'] = data['afsc_1']
     duty_data['afsc_2'] = data['afsc_2']
     duty_data['afsc_3'] = data['afsc_3']
@@ -518,7 +569,7 @@ function duty_data_parse(data){
     duty_data['org_type'] = data['org_type']    
     duty_data['org_level'] = data['org_level']
     duty_data['org_det'] = data['org_det']
-    duty_data['pas'] = data['pas']
+    duty_data['pas'] = data['PAS']
     duty_data['core_group'] = data['core_derived_group']
     duty_data['status_expire_date'] = formatSASDate(data['duty_status_exp_date'])                  
     duty_data['history'] = duty_history
