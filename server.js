@@ -26,7 +26,7 @@ app.set('jwtSecret', config.jwtSecret) // secret variable
 
 //CORS
 //Requests are only allowed from whitelisted url
-var whitelist = ['http://localhost:8080','https://localhost:8080']
+// var whitelist = ['http://localhost:8080','https://localhost:8080']
 var corsOptions = {
     origin: function (origin, callback){
         // whitelist-test pass
