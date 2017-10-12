@@ -341,7 +341,6 @@ apiRoutes.post('/officers', (req, res)=>{
     var desiredRNLTD = req.body.desiredRNLTD
     var interests = req.body.interests
     var qualifications = req.body.qualifications
-    console.log(req.body)
     var sqlPost = `UPDATE officers set comment = (?), 
                                    departureDate = (?), 
                                    desiredRNLTD = (?), 
@@ -371,8 +370,6 @@ apiRoutes.post('/officers', (req, res)=>{
 apiRoutes.post('/billets_fave', (req, res)=>{
     var officerId = req.decoded.id
     var rankedBillets = req.body.rankedBillets
-    console.log(req.decoded)
-    console.log(req.body)
     var sqlPost = 'UPDATE officers set rankedBillets = (?) where rowid = (?)' 
     db.run(sqlPost, [rankedBillets, officerId], (err)=>{
         //If error
@@ -401,7 +398,6 @@ apiRoutes.get('/officers', (req, res)=>{
             throw err
         }
         else {
-            console.log(row)
             data = handleBuffer(row)
             outData = {}
             outData['language'] = language_data_parse(data)
@@ -460,6 +456,8 @@ function general_data_parse(data){
     general_data['proj_grade'] = data['grade_proj']
     general_data['grade'] = data['grade']
     general_data['adjYG'] = data['adjYG']
+    general_data['tos'] = data['TOS']
+    general_data['tis'] = data['TAFMS']
     general_data['component'] = data['component_t']
     general_data['func_cat'] = data['func_cat']
     general_data['comp_cat'] = data['comp_cat']
@@ -554,6 +552,7 @@ function duty_data_parse(data){
     duty_data['afsc_2'] = data['afsc_2']
     duty_data['afsc_3'] = data['afsc_3']
     duty_data['unit'] = data['org_unit']
+    duty_data['location'] = data['AJJ']
     duty_data['org_num'] = data['org_num']
     duty_data['org_type'] = data['org_type']    
     duty_data['org_level'] = data['org_level']

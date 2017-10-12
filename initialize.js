@@ -64,6 +64,15 @@ for (let i=1;i<101;i++){
   })
 }
 
+for (let i=1;i<101;i++){
+  users.push({
+    email: "billet.owner."+i+"@us.af.mil",
+    password: "password",
+    role: "billet_owner",
+    id: i
+  })
+}
+
 var sql2 = `
 INSERT INTO user(email, password, role, hash, salt, id)
 VALUES (?,?,?,?,?,?)
@@ -85,14 +94,6 @@ db.serialize(()=>{
     stmt.run(users[i].email,users[i].password, users[i].role, hash, salt, users[i].id)
   }
   stmt.finalize()
-  db.all('SELECT * from user', (err, rows)=>{
-    if (err){
-      throw err    
-    }
-    rows.forEach((row)=>{
-      console.log(row)
-    })
-  })
   //.run('DROP TABLE user')
 })
 
