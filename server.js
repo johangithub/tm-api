@@ -524,10 +524,6 @@ function projection_data_parse(data){
     proj_data = {}
     proj_asgn = {}
     proj_asgn['pas'] = data['pas_proj']
-    console.log('proj')
-    console.log(proj_asgn['pas'])
-    console.log('data')
-    console.log(data['pas_proj'])
     proj_asgn['afsc'] = data['afsc_selected']
     proj_asgn['asd'] = formatSASDate(data['asd'])
     proj_asgn['pdd'] = formatSASDate(data['pdd'])
