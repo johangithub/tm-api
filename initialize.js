@@ -36,6 +36,12 @@ var users = [
     id: 999
   },
   {
+    email: "dutch.cude@us.af.mil",
+    password: "password",
+    role: "assignment_officer",
+    id: 999
+  },
+  {
     email: "officer@us.af.mil",
     password: "password",
     role: "officer",

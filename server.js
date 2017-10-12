@@ -430,7 +430,7 @@ apiRoutes.post('/officers', (req, res)=>{
 apiRoutes.get('/billets_fave', (req,res)=>{
     var officerId = req.decoded.id
     console.log(req.decoded)
-    var sqlGet = 'Select rankedBillets from officers where rowid = (?)'
+    var sqlGet = 'Select rankBillets from officers where rowid = (?)'
     db.get(sqlGet, [officerId], (err,row)=>{
         if (err){
             throw err
@@ -450,7 +450,7 @@ apiRoutes.get('/billets_fave', (req,res)=>{
 apiRoutes.post('/billets_fave', (req, res)=>{
     var officerId = req.decoded.id
     var rankedBillets = req.body.rankedBillets
-    var sqlPost = 'UPDATE officers set rankedBillets = (?) where rowid = (?)' 
+    var sqlPost = 'UPDATE officers set rankBillets = (?) where rowid = (?)' 
     db.run(sqlPost, [rankedBillets, officerId], (err)=>{
         //If error
         if (err){
