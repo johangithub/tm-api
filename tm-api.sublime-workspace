@@ -87,35 +87,7 @@
 			"file": "server.js",
 			"settings":
 			{
-				"buffer_size": 27547,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "TODO.md",
-			"settings":
-			{
-				"buffer_size": 381,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "initialize.js",
-			"settings":
-			{
-				"buffer_size": 1765,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "config.js",
-			"settings":
-			{
-				"buffer_size": 87,
-				"encoding": "UTF-8",
+				"buffer_size": 28822,
 				"line_ending": "Unix"
 			}
 		}
@@ -206,8 +178,12 @@
 	],
 	"file_history":
 	[
-		"/home/jh/tm-api/yarn-error.log",
+		"/home/jh/tm-api/server.js",
 		"/home/jh/tm-api/initialize.js",
+		"/home/jh/tm-api/config.js",
+		"/home/jh/tm-api/.gitignore",
+		"/home/jh/tm-api/TODO.md",
+		"/home/jh/tm-api/yarn-error.log",
 		"/home/jh/tm-api/tm-api.sublime-project",
 		"/home/jh/tm/build/webpack.base.conf.js",
 		"/home/jh/tm/src/components/Squadrons.vue",
@@ -222,7 +198,6 @@
 		"/home/jh/commander/tm/src/components/Navbar.vue",
 		"/home/jh/tm-api/register.js",
 		"/home/jh/tm-api/views/index.ejs",
-		"/home/jh/tm-api/server.js",
 		"/home/jh/tm-api/public/index.html",
 		"/home/jh/tm-api/index.ejs",
 		"/home/jh/tm/src/components/Profile.vue",
@@ -247,7 +222,6 @@
 		"/home/jh/tm-api/app/config/passport.js",
 		"/home/jh/tm-api/app/models/user.js",
 		"/home/jh/tm-api/app/config_passport.js",
-		"/home/jh/tm-api/config.js",
 		"/home/jh/api/app/config/strategies/local.js",
 		"/home/jh/api/server.js",
 		"/home/jh/tm/api/sqlite.js",
@@ -302,6 +276,40 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"/officer",
+			"token",
+			"role",
+			"token",
+			"projected",
+			"/officer",
+			"duty",
+			"rankedbillets",
+			"ranked",
+			"rankedBillet",
+			"tos",
+			"duty_data",
+			"console.log",
+			"billet_view",
+			"tos",
+			"general_data",
+			"general_dut",
+			"general_dtuy",
+			"tos",
+			"wic",
+			"location",
+			"name",
+			"general",
+			"adjyg",
+			"outData",
+			">>>",
+			"=>",
+			"<<<",
+			"delete data\\['\\w+'\\+i\\]\\n",
+			"delete data\\['\\w+'\\]\\n",
+			"delete data\\['\\w+'\\]",
+			"data[",
+			"id:",
+			"typeof",
 			"console.log",
 			"'object",
 			"data",
@@ -395,41 +403,7 @@
 			"fgo",
 			"cgo",
 			"Maj",
-			"craig.cude",
-			"\\, ",
-			"\"slip_reason\": \"\",",
-			"\"location\": [\"\",\"\",\"\",\"\"],",
-			"\"location\": [\"\",\"\",\"\",\"\"]",
-			"qualOptions",
-			"console.log",
-			"\"issueRNLTD\": false,",
-			"bcrypt",
-			"sha256",
-			"sha512",
-			"\\;",
-			"\"issueRNLTD\": false,",
-			"xs-4",
-			"desiredDepartureDate",
-			"port",
-			"\"location\": []",
-			"[]",
-			"\"location1\": \"\",\n      \"location2\": \"\",\n      \"location3\": \"\"",
-			"Jane Smith",
-			"Maj",
-			"FGO",
-			"console.",
-			"assetsPublicPath",
-			"console.log",
-			"name",
-			"getAxios",
-			"snackbar_login",
-			"authRequired: ",
-			"authRequired: true",
-			"authRequired",
-			"false",
-			"component",
-			"username",
-			"\\*{4}"
+			"craig.cude"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -437,6 +411,7 @@
 		"regex": true,
 		"replace_history":
 		[
+			"",
 			"'",
 			"Capt",
 			"\\,\\n",
@@ -482,7 +457,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -491,15 +466,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 27547,
+						"buffer_size": 28822,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5719,
-								5719
+								8089,
+								8106
 							]
 						],
 						"settings":
@@ -509,96 +484,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2142.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "TODO.md",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 381,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								284,
-								284
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 3246.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "initialize.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1765,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								633,
-								633
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 64.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "config.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 87,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								57,
-								57
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -610,7 +499,7 @@
 	},
 	"input":
 	{
-		"height": 31.0
+		"height": 35.0
 	},
 	"layout":
 	{
@@ -637,7 +526,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 322.0
+		"height": 280.0
 	},
 	"output.find_results":
 	{

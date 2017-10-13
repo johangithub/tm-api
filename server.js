@@ -141,7 +141,6 @@ apiRoutes.post('/authenticate',
                     })
                 }
             })
-
         }
     })
 })
@@ -173,9 +172,8 @@ apiRoutes.use(function(req, res, next){
 //route middleware to verify authority
 apiRoutes.use(function(req, res, next){
 
-    var role = req.decoded.role
+    var roles = req.decoded.role.split(',')
     var path = req.path
-
     //temporary route blocking
 //     if (role=='admin'){
 //         next()
@@ -187,7 +185,7 @@ apiRoutes.use(function(req, res, next){
 //         next()
 //     }
 //     else if (role=='losing_commander' && path=='/officers'){
-    if (role){
+    if (roles){
         next()
     }
     //Without proper role
@@ -529,7 +527,6 @@ function projection_data_parse(data){
     proj_asgn['pdd'] = formatSASDate(data['pdd'])
     proj_asgn['rnltd'] = formatSASDate(data['rnltd'])
 
-                    
     proj_duty = {}
     proj_duty['eff_date'] = formatSASDate(data['duty_status_proj_eff_date'])
     proj_duty['exp_date'] = formatSASDate(data['duty_status_proj_exp_date'])
