@@ -178,6 +178,7 @@
 	],
 	"file_history":
 	[
+		"/home/jh/tm-api/temp.txt",
 		"/home/jh/tm-api/server.js",
 		"/home/jh/tm-api/initialize.js",
 		"/home/jh/tm-api/config.js",
@@ -262,7 +263,7 @@
 	],
 	"find":
 	{
-		"height": 39.0
+		"height": 44.0
 	},
 	"find_in_files":
 	{
@@ -276,6 +277,14 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"rating",
+			"duty_data",
+			"rtg",
+			"dsn",
+			"col",
+			"Col",
+			"dsn",
+			"billet_view",
 			"/officer",
 			"token",
 			"role",
@@ -395,15 +404,7 @@
 			"4-ship",
 			"I want to work for the fighter porch.",
 			"polyfill",
-			"babel",
-			"v-model=\"officer",
-			"label=",
-			"label=\"",
-			"label=",
-			"fgo",
-			"cgo",
-			"Maj",
-			"craig.cude"
+			"babel"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -473,8 +474,8 @@
 						"selection":
 						[
 							[
-								8089,
-								8106
+								9431,
+								9431
 							]
 						],
 						"settings":
@@ -484,7 +485,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3246.0,
+						"translation.y": 5869.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -495,7 +496,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 22.0
+		"height": 30.0
 	},
 	"input":
 	{
@@ -536,7 +537,7 @@
 	"project": "tm-api.sublime-project",
 	"replace":
 	{
-		"height": 69.0
+		"height": 56.0
 	},
 	"save_all_on_build": true,
 	"select_file":
